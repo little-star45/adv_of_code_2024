@@ -1,135 +1,80 @@
-from pprint import pprint
-
-#ASCII:
-#0-9 -> numbers 48 to 57; '.' -> 46
-"""
-    If you can add up all the part numbers in the engine schematic, 
-it should be easy to work out which part is missing.
-
-    Any number adjacent to a symbol, even diagonally, 
-is a "part number" and should be included in your sum. 
-(Periods (.) do not count as a symbol.)
-
-Main task:
-    Return sum of numbers that adjacent symbols except '.'.
-
-"""
-
 def load_data_from_file(data_file):
     return open(data_file,'r').read()
 
-def add_empty_dots_rows(n):
-    return '.'*n
-
-def list_to_nb(nb):
-    str_nb = ''
+def decode_data(raw_data):
     
-    for i in nb:
-        str_nb += chr(i)
-    if (len(str_nb)>0):
-        return int(str_nb)
-    else:
-        return 0
+    raw_data_to_list = raw_data.split(' ')
+    raw_data_into_matrix = []
+    temp_data = []
+    for data in raw_data_to_list:
+        if '\n' in data:
+            temp_data.append(int(data.split('\n')[0]))
+            raw_data_into_matrix.append(temp_data)
+            temp_data = []
+            temp_data.append(int(data.split('\n')[-1]))
+        else:
+            temp_data.append(int(data))
+    raw_data_into_matrix.append(temp_data)
+    return raw_data_into_matrix
 
-def turn_into_ascii(data_list):
-    char_ascii_list = []
-    for x in data_list:
-        char_ascii_list.append(ord(x))
-    return char_ascii_list
+def my_diff_function(data_trace):
+    test_list = []
 
-def decode_data(data):
-    row_data = data.split('\n')
+    for i in range(len(data_trace)-1):
+        test_list.append(int(data_trace[i])-int(data_trace[i+1]))
+    return test_list
 
-    #adds blank lines to the data at the beginning and end, to avoid index out of range
-    row_data.insert(0,add_empty_dots_rows(len(row_data[0])))
-    row_data.append(add_empty_dots_rows(len(row_data[0])))
+def if_increase_decrease(data_trace):
+    print(data_trace)
+    variant = ''
+    if len(data_trace)>=2:
+        if data_trace[0]<data_trace[1]:
+            variant = 'increase'
+        elif data_trace[0]>data_trace[1]:
+            variant = 'decrease'
+        else:
+            return False
 
-    data_to_ascii = []
-    
-    for row in row_data:
-        data_to_ascii.append(turn_into_ascii(row))
-
-    return data_to_ascii
+    for i in range(len(data_trace)-1):
+        print(data_trace[i],data_trace[i+1])
+        if (variant == 'increase'):
+            if data_trace[i]<data_trace[i+1]:
+                continue
+            else:
+                return False
+        elif (variant == 'decrease'):
+            if data_trace[i]>data_trace[i+1]:
+                continue
+            else:
+                return False
+    return True
 
 def main(data_file):
-    nb_or_dot = [x for x in range(48,58)]+[46]
 
     raw_data = load_data_from_file(data_file)
-    ascii_data = decode_data(raw_data)
+    data_matrix = decode_data(raw_data)
 
-    one_number=[]
-    adjacent_to_symbol = False
-    result_sum = 0
+    safe = 0
 
-    for i, row in enumerate(ascii_data[1:-1]):
-        i +=1
-        for j, nb in enumerate(row):
-            if (j==0):
-                if (nb>=48) and (nb<=57):
-                    one_number.append(nb)
-                    if (
-                        (ascii_data[i+1][j] not in nb_or_dot)
-                        or (ascii_data[i+1][j+1] not in nb_or_dot) 
-                        or (ascii_data[i][j+1] not in nb_or_dot)
-                        or (ascii_data[i-1][j] not in nb_or_dot) 
-                        or (ascii_data[i-1][j+1] not in nb_or_dot)
-                        ) :
-                        adjacent_to_symbol = True
-                else:
-                    if(adjacent_to_symbol):
-                        result_sum += list_to_nb(one_number)
-                    one_number = []
-                    adjacent_to_symbol = False
+    for data_trace in data_matrix:
 
-            elif (j==len(row)-1):
-                if (nb>=48) and (nb<=57):
-                    one_number.append(nb)
-                    if (
-                        (ascii_data[i+1][j] not in nb_or_dot) 
-                        or (ascii_data[i-1][j] not in nb_or_dot) 
-                        or (ascii_data[i+1][j-1] not in nb_or_dot)
-                        or (ascii_data[i-1][j-1] not in nb_or_dot) 
-                        or (ascii_data[i][j-1] not in nb_or_dot)
-                        ) :
-                        adjacent_to_symbol = True
-                else:
-                    if(adjacent_to_symbol):
-                        result_sum += list_to_nb(one_number)
-                    one_number = []
-                    adjacent_to_symbol = False
-            else:
-                if (nb>=48) and (nb<=57):
-                    one_number.append(nb)
-                    if (
-                        (ascii_data[i+1][j] not in nb_or_dot) 
-                        or (ascii_data[i-1][j] not in nb_or_dot) 
-                        or (ascii_data[i+1][j-1] not in nb_or_dot)
-                        or (ascii_data[i-1][j-1] not in nb_or_dot) 
-                        or (ascii_data[i][j-1] not in nb_or_dot)
-                        or (ascii_data[i][j+1] not in nb_or_dot)
-                        or (ascii_data[i+1][j+1] not in nb_or_dot)
-                        or (ascii_data[i-1][j+1] not in nb_or_dot) 
-                        ) :
-                        adjacent_to_symbol = True
-                else:
-                    if(adjacent_to_symbol):
-                        result_sum += list_to_nb(one_number)
-                    one_number = []
-                    adjacent_to_symbol = False
-    print(result_sum)        
+        trace = my_diff_function(data_trace)
+        if 0 in trace:
+            continue
 
+        sorted_trace  = sorted(trace)
 
-def test_function(data_file):
-    answers = (4361,)
-    _,__ = main(data_file)
-
-    if (_==answers[0]):
-        print('Pass') 
-    else:
-        print(f'') 
-
+        if (abs(sorted_trace[0])<=3 and abs(sorted_trace[-1]<=3)):
+            print(data_trace)
+            if (if_increase_decrease(data_trace)):
+                safe +=1
+    return safe
+            
 if __name__ == '__main__':
     # test_function('data1.txt')
-    main('data1.txt')
+    # print(main('data_test.txt'))
+    print(main('data1.txt'))
 
-#Right answer: 535078
+# 327 That's not the right answer; your answer is too low
+
+#Right answer: 407
