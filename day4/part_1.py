@@ -17,7 +17,7 @@ def xmas_right(word, input, reverse = False):
             if input[x_idx:x_idx+4] == word:
                 xmas_counter +=1
         if reverse == True:
-            if input[x_idx-3:x_idx+1] == word:
+            if [input[x_idx],input[x_idx-1],input[x_idx-2],input[x_idx-3] ] == word:
                 xmas_counter +=1
         x_idx +=1
     return xmas_counter
@@ -74,14 +74,14 @@ def main(data_file):
 
     for i, data_slice in enumerate(data_list):
         xmas_counter += xmas_right(['X','M','A','S'], data_slice)
-        xmas_counter += xmas_right(['S','A','M','X'], data_slice, reverse=True)
+        xmas_counter += xmas_right(['X','M','A','S'], data_slice, reverse=True)
 
         if(i<len(data_list)-3):
             xmas_counter += xmas_down(['X','M','A','S'], data_slice, data_list, i)
             xmas_counter += xmas_diagonal(['X','M','A','S'], data_slice, data_list, i)
-        if(i>3):
+        if(i>2):
             xmas_counter += xmas_down(['X','M','A','S'], data_slice, data_list, i, reverse=True)
-        if(i>3):
+        if(i>2):
             xmas_counter += xmas_diagonal(['X','M','A','S'], data_slice, data_list, i, reverse=True)
 
     return xmas_counter
@@ -90,4 +90,5 @@ if __name__ == '__main__':
     print(main('data1.txt'))
 
     #2336 That's not the right answer; your answer is too low.
+    #2345
 

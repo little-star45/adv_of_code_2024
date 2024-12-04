@@ -22,7 +22,7 @@ def test_get_basic_xmas_right_reverse():
     data_list = part_1.decode_data(raw_data)
     xmas_counter = 0
     for data_slice in data_list:
-        xmas_counter += part_1.xmas_right(['S','A','M','X'], data_slice, reverse=True)
+        xmas_counter += part_1.xmas_right(['X','M','A','S'], data_slice, reverse=True)
     assert xmas_counter == 2
 
 def test_get_basic_xmas_down():
