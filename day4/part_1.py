@@ -87,8 +87,14 @@ def main(data_file):
     return xmas_counter
             
 if __name__ == '__main__':
-    print(main('data1.txt'))
+    print(main('problem_test.txt'))
 
     #2336 That's not the right answer; your answer is too low.
-    #2345
+    #2337 That's not the right answer; your answer is too low.
+    #2345 That's not the right answer; your answer is too high.
+    #2338 fail
+    #2339 fail
+    #2340 fail
+    #2341 fail
+    
 
