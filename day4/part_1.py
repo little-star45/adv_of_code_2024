@@ -96,5 +96,7 @@ if __name__ == '__main__':
     #2339 fail
     #2340 fail
     #2341 fail
+
+    #2344; right answer
     
 
