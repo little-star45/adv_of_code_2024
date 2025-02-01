@@ -36,7 +36,7 @@ def main(data_file):
     return len(stones_list)
 
 if __name__ == '__main__':
-    # print(main('raw_data.txt'))
-    print(main('data_test.txt'))
+    print(main('raw_data.txt'))
+    # print(main('data_test.txt'))
     # print(main('edge_cases.txt'))
 #
