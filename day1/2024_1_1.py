@@ -1,35 +1,39 @@
-def load_data_from_file(data_file):
-    return open(data_file,'r').read()
+from load_data_2024_1 import prepare_data
 
-def split_data_into_lists(raw_data):
-    tab1, tab2 = [],[]
-    line_data = raw_data.split('\n')
-    for trace in line_data:
-        split_trace = trace.split('   ')
-        if len(split_trace)>0:
-            tab1.append(int(split_trace[0]))
-            tab2.append(int(split_trace[1]))
-        else:
-            tab1.append(int(split_trace[0]))
-    return tab1, tab2
+import random
+
+def custom_quicksort(arr):
+    if len(arr)<2:
+        return arr
+    else:
+        #median of three
+        pivot = random.choice(arr)
+
+        left=[x for x in arr if x<pivot]
+        right=[x for x in arr if x>pivot]
+        middle=[x for x in arr if x == pivot]
+
+        return custom_quicksort(left) + middle + custom_quicksort(right)
 
 def diff_locations_list(loc1,loc2):
-    results_list =[]
+    res_sum = 0
     if len(loc1)>len(loc2):
         for i in range(len(loc1)):
-            results_list.append(abs(loc1[i]-loc2[i]))
+            res_sum += abs(loc1[i]-loc2[i])
     else:
         for i in range(len(loc2)):
-            results_list.append(abs(loc1[i]-loc2[i]))
-    return results_list
+            res_sum += abs(loc1[i]-loc2[i])
+    return res_sum
 
 def main(data_file):
-    raw_data = load_data_from_file(data_file)
-    tab1, tab2 = split_data_into_lists(raw_data)
-    diff_loc = diff_locations_list(sorted(tab1),sorted(tab2))
-    return sum(diff_loc)
+    tab_left, tab_right = prepare_data(data_file)
+    return diff_locations_list(custom_quicksort(tab_left),custom_quicksort(tab_right))
 
 if __name__ == '__main__':
-    # print(main('data_test.txt'))
-    print(main('data1.txt'))
-    #Right answer: 2066446
+    try:
+        print(main('day1/data1.txt'))
+    except:
+        print(main('data1.txt'))
+    # #Right answer: 2066446
+
+    # print(custom_quicksort([3,7]))
