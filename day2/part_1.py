@@ -12,13 +12,10 @@ def my_diff_function(data_trace):
 def custom_insertion_sort(arr):
     for rp, rv in enumerate(arr[1:], start=1):
         lp=rp-1
-
         while lp>=0 and arr[lp]>rv:
             arr[lp+1]=arr[lp]
             lp-=1
-
         arr[lp+1]=rv
-
     return arr
 
 def if_increase_decrease(data_trace):
@@ -30,23 +27,17 @@ def if_increase_decrease(data_trace):
     return False
 
 def main(data_file):
+
     safe = 0
-
-    #prepare data
-    data_matrix = prepare_data(data_file)
+    data_matrix = prepare_data(data_file) #prepare data
     
-    #check all data matrix traces
-    for data_trace in data_matrix:
+    for data_trace in data_matrix: #check all data matrix traces
 
-        #calculate the diff between two element in each trace
-        trace = my_diff_function(data_trace)
-
-        #sorted and chceck if we don't have too big spaces between numbers
-        sorted_trace  = custom_insertion_sort(trace)
+        trace = my_diff_function(data_trace)#calculate the diff between two element in each trace
+        sorted_trace  = custom_insertion_sort(trace) #sorted and chceck if diff between numbers is max 3
 
         if (abs(sorted_trace[0])<=3 and abs(sorted_trace[-1]<=3)) and sorted_trace[0]!=0:
-            #check if our data traces are fully increasing or deceasing
-            if (if_increase_decrease(data_trace)):
+            if (if_increase_decrease(data_trace)): #check if our data traces are fully increasing or deceasing
                 safe +=1
     return safe
             
