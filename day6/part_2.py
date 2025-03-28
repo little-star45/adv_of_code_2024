@@ -8,6 +8,7 @@ the guard will visit 41 distinct positions on your map."""
 2.1 Check if make three right turns in a row.
 """
 from load_data_2024_6 import decode_data
+from part_1 import get_guard_track
 
 def get_guard_pos(split_data):
     x = 0
@@ -16,50 +17,6 @@ def get_guard_pos(split_data):
             x = data.index('^')
             return (x,y)
             
-def get_guard_track(room, guard_start_pos):
-
-    room = [list(res) for res in room]
-
-    x, y = guard_start_pos
-    steps = []
-    turn = 'up'
-    #'up', 'down', 'left', 'right'
-    # '.' in ascii -> ord('.') = 46 ; ^ -> 94
-
-    #add initial guard position
-    steps.append(f'{x}_{y}')
-    
-    while (x != 0) and (y != 0) and (x != len(room[0])-1) and (y != len(room)-1):
-        
-        if turn == 'up':
-            if ((ord(room[y-1][x]) == 46) or (ord(room[y-1][x]) == 94)):
-                y -=1
-                steps.append(f'{x}_{y}')
-            else:
-                turn = 'right'        
-                
-        elif turn == 'down':
-            if ((ord(room[y+1][x]) == 46) or (ord(room[y+1][x]) == 94)):
-                y +=1
-                steps.append(f'{x}_{y}')
-            else:
-                turn = 'left'        
-                
-        elif turn == 'left':
-            if ((ord(room[y][x-1]) == 46) or (ord(room[y][x-1]) == 94)):
-                x -=1
-                steps.append(f'{x}_{y}')
-            else:
-                turn = 'up'
-
-        elif turn == 'right':
-            if ((ord(room[y][x+1]) == 46) or (ord(room[y][x+1]) == 94)):
-                x +=1
-                steps.append(f'{x}_{y}')
-            else:
-                turn = 'down'
-
-    return steps
 def buckup_in_file(room_buckup):
     with open('buckup_list.txt', 'w') as f:
         for line in room_buckup:
@@ -70,10 +27,6 @@ def check_guard_stuck(room, guard_start_pos, o_x, o_y, guard_steps):
     room = [list(res) for res in room]
     room[o_y][o_x] = '#'
 
-    # room_buckup = [list(res) for res in room]
-    # with open('buckup_list.txt', 'w') as f:
-    #         for line in room_buckup:
-    #             f.write("%s\n" % ('').join(line))
     x, y = guard_start_pos
     turns = []
     turn = 'up'
@@ -81,13 +34,10 @@ def check_guard_stuck(room, guard_start_pos, o_x, o_y, guard_steps):
     while (x != 0) and (y != 0) and (x != len(room[0])-1) and (y != len(room)-1):
 
         #You can use fields that you can't use before!
-        # if f'{x}_{y}' not in guard_steps:
-        #     return False
         
         if turn == 'up':
             if ((ord(room[y-1][x]) == 46) or (ord(room[y-1][x]) == 94)):
                 y -=1
-                # room_buckup[y][x] = 'X'
             else:
                 turn = 'right'
                 
@@ -98,9 +48,7 @@ def check_guard_stuck(room, guard_start_pos, o_x, o_y, guard_steps):
         elif turn == 'down':
             if ((ord(room[y+1][x]) == 46) or (ord(room[y+1][x]) == 94)):
                 y +=1
-                # room_buckup[y][x] = 'X'
             else:
-                # buckup_in_file(room_buckup)
                 turn = 'left'  
                 if turns.count(f'{x}_{y}')>2:
                     return True
@@ -109,9 +57,7 @@ def check_guard_stuck(room, guard_start_pos, o_x, o_y, guard_steps):
         elif turn == 'left':
             if ((ord(room[y][x-1]) == 46) or (ord(room[y][x-1]) == 94)):
                 x -=1
-                # room_buckup[y][x] = 'X'
             else:
-                # buckup_in_file(room_buckup)
                 turn = 'up'
                 if turns.count(f'{x}_{y}')>2:
                     return True
@@ -120,9 +66,7 @@ def check_guard_stuck(room, guard_start_pos, o_x, o_y, guard_steps):
         elif turn == 'right':
             if ((ord(room[y][x+1]) == 46) or (ord(room[y][x+1]) == 94)):
                 x +=1
-                # room_buckup[y][x] = 'X'
             else:
-                # buckup_in_file(room_buckup)
                 turn = 'down'
                 if turns.count(f'{x}_{y}')>2:
                     return True
