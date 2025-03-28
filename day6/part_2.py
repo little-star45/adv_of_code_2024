@@ -7,15 +7,7 @@ the guard will visit 41 distinct positions on your map."""
 2. Calc everything.
 2.1 Check if make three right turns in a row.
 """
-
-def load_data_from_file(data_file):
-    return open(data_file,'r').read()
-
-def decode_data(raw_data):
-    results = []
-    for row in raw_data.split('\n'):
-        results.append(row)
-    return results
+from load_data_2024_6 import decode_data
 
 def get_guard_pos(split_data):
     x = 0
@@ -139,8 +131,7 @@ def check_guard_stuck(room, guard_start_pos, o_x, o_y, guard_steps):
     return False
             
 def main(data_file):
-    raw_data = load_data_from_file(data_file)
-    split_data = decode_data(raw_data)
+    split_data = decode_data(data_file)
     guard_pos = get_guard_pos(split_data)
     guard_steps = get_guard_track(split_data, guard_pos)
 
@@ -163,6 +154,4 @@ if __name__ == '__main__':
     # print(main('data_test.txt'))
     print(main('raw_data.txt'))
 
-#336 That's not the right answer; your answer is too low.
-#725 That's not the right answer; your answer is too low.
-#1424 That's not the right answer;
+#1424 That's the right answer;

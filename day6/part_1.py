@@ -1,15 +1,7 @@
 """If there is something directly in front of you, turn right 90 degrees.
 Otherwise, take a step forward.
 the guard will visit 41 distinct positions on your map."""
-
-def load_data_from_file(data_file):
-    return open(data_file,'r').read()
-
-def decode_data(raw_data):
-    results = []
-    for row in raw_data.split('\n'):
-        results.append(row)
-    return results
+from load_data_2024_6 import decode_data
 
 def get_guard_pos(split_data):
     x = 0
@@ -67,8 +59,7 @@ def get_guard_track(room, guard_start_pos):
     return steps
             
 def main(data_file):
-    raw_data = load_data_from_file(data_file)
-    split_data = decode_data(raw_data)
+    split_data = decode_data(data_file)
     guard_pos = get_guard_pos(split_data)
     guard_steps= get_guard_track(split_data, guard_pos)
     guard_diff_locations= len(set(guard_steps))
