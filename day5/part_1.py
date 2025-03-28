@@ -15,19 +15,7 @@ Also need to know the middle page number of each update being printed.
 
 What do you get if you add up the middle page number from those correctly-ordered updates?
 """
-
-def load_data_from_file(data_file):
-    return open(data_file,'r').read()
-
-def decode_data(raw_data):
-    code, pages = [], []
-    for row in raw_data.split('\n'):
-        if '|' in row:
-            code.append(row)
-        else:
-            pages.append(row)
-    del pages[0]
-    return code, pages
+from load_data_2024_5 import decode_data
 
 def split_code(code):
     return [c.split('|') for c in code]
@@ -52,7 +40,7 @@ def check_pages(code, pages):
     results = []
 
     for p in pages:
-        flag  =True
+        flag =True
         for j, nb in enumerate(p):
             checklist = code.get(nb,None)
             if checklist==None:
@@ -66,9 +54,7 @@ def check_pages(code, pages):
     return sum(results)
 
 def main(data_file):
-    raw_data = load_data_from_file(data_file)
-
-    code, pages = decode_data(raw_data)
+    code, pages = decode_data(data_file)
 
     code_split = split_code(code)
     pages_split = split_pages(pages)
@@ -77,10 +63,10 @@ def main(data_file):
 
     results = check_pages(code_dict, pages_split)
 
-    print(results)        
+    return results      
 
 if __name__ == '__main__':
-    main('raw_data.txt')
+    print(main('raw_data.txt'))
 
     #5129 That's the right answer!;
     
