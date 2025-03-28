@@ -15,7 +15,6 @@ def decode_data(raw_data):
         else:
             temp_data.append(int(data))
     raw_data_into_matrix.append(temp_data)
-    print(raw_data_into_matrix)
     return raw_data_into_matrix
 
 def prepare_data (data_file):
