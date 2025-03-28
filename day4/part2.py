@@ -33,12 +33,13 @@ def main(data_file):
     data_list = decode_data(data_file)
 
     for i, data_slice in enumerate(data_list):
-        
+
+        #i consider four possibilities of write xmas-thanks to that i can use the same funcion for each case; changed only main letter;
         if(i<len(data_list)-2):
             xmas_counter += xmas_diagonal_right(['M','S','M','S'], data_slice, data_list, i, 'M')
             xmas_counter += xmas_diagonal_right(['M','M','S','S'], data_slice, data_list, i, 'M')
-            xmas_counter += xmas_diagonal_right(['S','S','M','M'], data_slice, data_list, i, 'S') 
-            xmas_counter += xmas_diagonal_right(['S','M','S','M'], data_slice, data_list, i, 'S')  
+            xmas_counter += xmas_diagonal_right(['S','S','M','M'], data_slice, data_list, i, 'S')
+            xmas_counter += xmas_diagonal_right(['S','M','S','M'], data_slice, data_list, i, 'S')
 
     return xmas_counter
             
