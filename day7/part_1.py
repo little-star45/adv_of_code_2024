@@ -1,22 +1,6 @@
+from load_data_2024_7 import raw_data_tuple
 from itertools import product
-
-def load_data_from_file(data_file):
-    return open(data_file,'r').read()
-
-def decode_data(raw_data):
-    results = []
-    for row in raw_data.split('\n'):
-        results.append(row)
-    return results
-
-def raw_data_tuple(split_data):
-    results = []
-    for x in split_data:
-        answer = int(x.split(":")[0])
-        data = x.split(":")[1][1::].split(' ')
-        data = [int(x) for x in data]
-        results.append((answer, data))
-    return results
+from math import prod
 
 def get_variants(data):
     return set(list(product(['*', '+'], repeat = (len(data)-1))))
@@ -26,9 +10,7 @@ def check_datatrace(data):
     numbers = data[1]
 
     #all multiply
-    results = 1
-    for val in numbers:
-        results *= val
+    results = prod(numbers)
 
     if (results==answer):
         return answer
@@ -58,9 +40,7 @@ def check_datatrace(data):
 
 
 def main(data_file):
-    raw_data = load_data_from_file(data_file)
-    split_data = decode_data(raw_data)
-    data_tuple = raw_data_tuple(split_data)
+    data_tuple = raw_data_tuple(data_file)
 
     res_sum = 0
     for i, data in enumerate(data_tuple):
