@@ -1,11 +1,4 @@
-def load_data_from_file(data_file):
-    return open(data_file,'r').read()
-
-def decode_data(raw_data):
-    results = []
-    for row in raw_data.split('\n'):
-        results.append(list(row))
-    return results
+from load_data_2024_4 import decode_data
 
 def xmas_diagonal_right(word, input, all_data, row_nb, search_letter):
     #search letter - first letter from left to right
@@ -37,8 +30,7 @@ def xmas_diagonal_right(word, input, all_data, row_nb, search_letter):
 
 def main(data_file):
     xmas_counter = 0
-    raw_data = load_data_from_file(data_file)
-    data_list = decode_data(raw_data)
+    data_list = decode_data(data_file)
 
     for i, data_slice in enumerate(data_list):
         

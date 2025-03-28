@@ -1,11 +1,4 @@
-def load_data_from_file(data_file):
-    return open(data_file,'r').read()
-
-def decode_data(raw_data):
-    results = []
-    for row in raw_data.split('\n'):
-        results.append(list(row))
-    return results
+from load_data_2024_4 import decode_data
 
 def xmas_right(word, input, reverse = False):
     x_idx = 0
@@ -69,8 +62,7 @@ def xmas_diagonal(word, input, all_data, row_nb, reverse = False):
 
 def main(data_file):
     xmas_counter = 0
-    raw_data = load_data_from_file(data_file)
-    data_list = decode_data(raw_data)
+    data_list = decode_data(data_file)
 
     for i, data_slice in enumerate(data_list):
         xmas_counter += xmas_right(['X','M','A','S'], data_slice)
@@ -87,15 +79,8 @@ def main(data_file):
     return xmas_counter
             
 if __name__ == '__main__':
-    print(main('problem_test.txt'))
-
-    #2336 That's not the right answer; your answer is too low.
-    #2337 That's not the right answer; your answer is too low.
-    #2345 That's not the right answer; your answer is too high.
-    #2338 fail
-    #2339 fail
-    #2340 fail
-    #2341 fail
+    # print(main('problem_test.txt'))
+    print(main('data1.txt'))
 
     #2344; right answer
     
