@@ -1,80 +1,47 @@
-def load_data_from_file(data_file):
-    return open(data_file,'r').read()
-
-def decode_data(raw_data):
-    
-    raw_data_to_list = raw_data.split(' ')
-    raw_data_into_matrix = []
-    temp_data = []
-    for data in raw_data_to_list:
-        if '\n' in data:
-            temp_data.append(int(data.split('\n')[0]))
-            raw_data_into_matrix.append(temp_data)
-            temp_data = []
-            temp_data.append(int(data.split('\n')[-1]))
-        else:
-            temp_data.append(int(data))
-    raw_data_into_matrix.append(temp_data)
-    return raw_data_into_matrix
+from load_data_2024_2 import prepare_data
 
 def my_diff_function(data_trace):
-    test_list = []
+    return [data_trace[i]-data_trace[i+1] for i in range(len(data_trace)-1)]
 
-    for i in range(len(data_trace)-1):
-        test_list.append(int(data_trace[i])-int(data_trace[i+1]))
-    return test_list
+# def custom quicksort
 
 def if_increase_decrease(data_trace):
-    print(data_trace)
-    variant = ''
-    if len(data_trace)>=2:
-        if data_trace[0]<data_trace[1]:
-            variant = 'increase'
-        elif data_trace[0]>data_trace[1]:
-            variant = 'decrease'
-        else:
-            return False
+    if data_trace[0]<data_trace[1]:
+        return all(data_trace[i]<data_trace[i+1] for i in range(len(data_trace)-1))
 
-    for i in range(len(data_trace)-1):
-        print(data_trace[i],data_trace[i+1])
-        if (variant == 'increase'):
-            if data_trace[i]<data_trace[i+1]:
-                continue
-            else:
-                return False
-        elif (variant == 'decrease'):
-            if data_trace[i]>data_trace[i+1]:
-                continue
-            else:
-                return False
-    return True
+    elif data_trace[0]>data_trace[1]:
+        return all(data_trace[i]>data_trace[i+1] for i in range(len(data_trace)-1))
+    return False
 
 def main(data_file):
-
-    raw_data = load_data_from_file(data_file)
-    data_matrix = decode_data(raw_data)
-
     safe = 0
 
+    #prepare data
+    data_matrix = prepare_data(data_file)
+    
+    #check all data matrix traces
     for data_trace in data_matrix:
 
+        #calculate the diff between two element in each trace
         trace = my_diff_function(data_trace)
+        print('trace',trace)
+        #check if we don't have two same elements
         if 0 in trace:
             continue
-
+        
+        #sorted and chceck if we don't have too big spaces between numbers
         sorted_trace  = sorted(trace)
-
+        print('sorted trace', sorted_trace)
         if (abs(sorted_trace[0])<=3 and abs(sorted_trace[-1]<=3)):
             print(data_trace)
+            #check if our data traces are fully increasing or deceasing
             if (if_increase_decrease(data_trace)):
                 safe +=1
     return safe
             
 if __name__ == '__main__':
     # test_function('data1.txt')
-    # print(main('data_test.txt'))
-    print(main('data1.txt'))
-
-# 327 That's not the right answer; your answer is too low
+    print(main('problem_test.txt'))
+    # print(main('data1.txt'))
 
 #Right answer: 407
